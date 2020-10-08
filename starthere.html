@@ -1,0 +1,47 @@
+<html>
+
+<!--
+  - this is a standalone test of Meta/JS
+  - load this HTML file into your browser
+  - it will take the first script with type "text/x-ometa-js" and
+    convert it to a JS object which contains a comma-expr
+    evaling the object will return the last expr
+  - the OMEta translator will take something of the form
+    "ometa Calc { ... } <JS-expr>" and translate the OMeta
+    portion, while leaving the JS portion alone.
+    It will return an object containing the translated portion-comma-JS.
+-->
+
+  <head>
+    <script src="prototype.js"></script>
+    <script src="lib.js"></script>
+    <script src="ometa-base.js"></script>
+    <script src="parser.js"></script>
+    <script src="bs-js-compiler.js"></script>
+    <script src="bs-ometa-compiler.js"></script>
+    <script src="bs-ometa-optimizer.js"></script>
+    <script src="bs-ometa-js-compiler.js"></script>
+    <script src="ometa-script-tag.js"></script>
+
+    <script type="text/x-ometa-js">
+ometa Calc {
+  digit    = ^digit:d                 -> d.digitValue(),
+  number   = number:n digit:d         -> (n * 10 + d)
+           | digit,
+  addExpr  = addExpr:x '+' mulExpr:y  -> (x + y)
+           | addExpr:x '-' mulExpr:y  -> (x - y)
+           | mulExpr,
+  mulExpr  = mulExpr:x '*' primExpr:y -> (x * y)
+           | mulExpr:x '/' primExpr:y -> (x / y)
+           | primExpr,
+  primExpr = '(' expr:x ')'           -> x
+           | number,
+  expr     = addExpr
+}
+      alert("answer should be 42 (hit OK): " + Calc.matchAll('6*(4+3)', 'expr'))
+    </script>
+
+  <body>
+    that's a start!
+  </body>
+</html>
