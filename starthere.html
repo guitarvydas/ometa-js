@@ -21,6 +21,7 @@
     <script src="bs-ometa-compiler.js"></script>
     <script src="bs-ometa-optimizer.js"></script>
     <script src="bs-ometa-js-compiler.js"></script>
+    <script src="misc.js"></script>
     <script src="ometa-script-tag.js"></script>
 
     <script type="text/x-ometa-js">
@@ -38,11 +39,16 @@ ometa Calc {
            | number,
   expr     = addExpr
 }
-      alert("(answer should be 42 (view answer, then hit OK)).  The
-answer is: " + Calc.matchAll('6*(4+3)', 'expr'))
+      displayResult("The answer is: " + Calc.matchAll('6*(4+3)', 'expr'));
+      displayDate();
     </script>
 
   <body>
-    that's a start!
+    <p id="timestamp"></p>
+    <button onclick="evalOMeta()">Eval OMeta</button>
+    <p>
+      that's a start!
+    <p>
+    <p id="result"></p>
   </body>
 </html>

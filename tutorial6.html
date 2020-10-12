@@ -1,0 +1,48 @@
+<html>
+
+<!--
+  - 3rd tutorial
+-->
+
+  <head>
+    <script src="prototype.js"></script>
+    <script src="lib.js"></script>
+    <script src="ometa-base.js"></script>
+    <script src="parser.js"></script>
+    <script src="bs-js-compiler.js"></script>
+    <script src="bs-ometa-compiler.js"></script>
+    <script src="bs-ometa-optimizer.js"></script>
+    <script src="bs-ometa-js-compiler.js"></script>
+    <script src="misc.js"></script>
+    <script src="ometa-script-tag.js"></script>
+
+    <script type="text/x-ometa-js">
+// this is not in the file OMeta_tutorial.txt, but it is derived from the thesis
+
+ometa Scm2Tokens {
+// note that copy/paste from thesis uses different quote characters
+//  (’ instead of ')
+//  (change them manually)
+eq       = '='        -> {kind: '=',   value: '='},
+num      = digit+:ds  -> {kind: 'num', value: parseInt(ds.join(''))},  
+id       = letter+:ls -> {kind: 'id',  value: ls.join('')},
+scanner  = space* (eq | num | id),
+token :k = scanner:t ?(t.kind == k) -> t.value,
+assign   = token('id'):dest token('=') token('num'):src -> ("assign " + dest.toString() + " " + src.toString())
+}
+      var result = Scm2Tokens.matchAll('x=3','assign');
+      displayResult('Result: ' + result);
+      displayDate();
+    </script>
+
+  <body>
+    <p id="timestamp"></p>
+    <button onclick="evalOMeta()">Eval OMeta</button>
+    <p>
+      Tutorial 6
+    <p>
+    <p id="tree"></p>
+    <p id="compiled"></p>
+    <p id="result"></p>
+  </body>
+</html>
