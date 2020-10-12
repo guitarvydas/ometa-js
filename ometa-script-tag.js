@@ -5,8 +5,7 @@ function translateCode(s) {
   return BSOMetaJSTranslator.match(tree, "trans", undefined, translationError)
 }
    
-origOnload = window.onload
-window.onload = function() {
+function evalOMeta () {
   var scripts = document.getElementsByTagName("script")
   for (var idx = 0; idx < scripts.length; idx++) {
     var script = scripts[idx]
@@ -17,5 +16,11 @@ window.onload = function() {
     eval(origOnload)
   else if (typeof origOnload === "function")
     origOnload()
+}
+
+origOnload = window.onload;
+
+window.onload = function() {
+    evalOMeta();
 }
 
